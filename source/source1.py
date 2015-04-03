@@ -23,8 +23,8 @@ def get_triangle_type(a=0, b=0, c=0):
     """
     if isinstance(a, (tuple, list)) and len(a) == 3:
         c = a[2]
-        b = b[1]
-        a = a[1]
+        b = a[1]
+        a = a[0]
 
     if isinstance(a, dict) and len(a.keys()) == 3:
         values = []

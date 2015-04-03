@@ -12,6 +12,7 @@ Contents:
    :maxdepth: 2
 
    code/source1.rst
+   code/verify_shape.rst
 
 
 Indices and tables
