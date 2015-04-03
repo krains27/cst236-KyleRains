@@ -3,4 +3,3 @@ coverage
 mock
 sphinx
 docutils
-nose2-cov
