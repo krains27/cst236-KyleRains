@@ -1,15 +1,20 @@
 """
 :mod:`source.verify_shape` -- Determines if a shape is a
-square or rectangle
+square or rectangle. If angles are provided, the
+module will determine if the shape is a rhombus or
+disconnected.
 ========================================================
 
-The following code determines if a set of 4 sides of a shape is a rectangle or a square
+The following code determines if a set of 4 sides of a shape is a rectangle or a square.
+If the angles are provided, the code will determine if the shape is a rhombus or
+disconnected.
 """
 
 
 def get_shape_type(angles=[], a=0, b=0, c=0, d=0):
     """
-    Determine if the given shape is a rectangle or a square
+    Determine if the given shape is a rectangle or a square. If the angles
+    are provided, determine if the shape is a rhombus or disconnected.
 
     :param angles: The angles of the shape
     :type angles: list
