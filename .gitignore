@@ -1,5 +1,5 @@
 *.exe
 *.pyc
 /htmlcov
-/doc
+/doc/build
 .coverage
