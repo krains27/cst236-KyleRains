@@ -14,7 +14,7 @@ During the course of this lab, why did we exclude .pyc files?
 
 .pyc is a the compiled python files. Binaries like the .pyc files should not be included in a 
 commit because a binary file undergoes a high percentage of change each time python code is 
-compiled. 
+compiled. This could be an issue because git only stores deltas of files. 
 
 Name three files which would likely need to have a gitignore added?
 ===================================================================
