@@ -7,6 +7,10 @@ is being played
 """
 from kingdom import Kingdom
 from common import unit_list
+from orc import orc_types
+from common import orc_priority
+import random
+
 import logging
 
 class Game(object):
@@ -31,6 +35,14 @@ class Game(object):
         if self.__kingdom.check_perimeter():
             self.logger.info('Perimeter Breached')
 
+    def clear_orcs(self):
+        """
+        Clears all orcs from the game
+
+        :return: None
+        """
+        self.__kingdom.clear_orcs()
+
     def display_commands(self):
         """
         Displays a list of commands
@@ -39,6 +51,33 @@ class Game(object):
         """
         for command in self.command_docs:
             self.logger.info(command)
+
+    def display_orc_detail(self, command_str):
+        """
+        Displays the details of the orc with given ID
+
+        :param command_str: String to parse to get orc ID
+        :type command_str: basestring
+
+        :return: None
+        """
+        parsed_command = str.split(command_str, ' ')
+
+        if len(parsed_command) != 1 or len(parsed_command[0]) == 0:
+            self.logger.warning('Invalid detail command')
+        else:
+            orc_id = int(parsed_command[0])
+
+            orc = self.get_orc(orc_id)
+
+            if orc:
+                self.logger.info('Orc ID: {}'.format(orc.id))
+                self.logger.info('Orc Type: {}'.format(orc.orc_type))
+                self.logger.info('Orc Distance: {} {}'.format(orc.distance,
+                                                              unit_list[self.__units]))
+                self.logger.info('Orc Velocity: {} {}/HR'.format(orc.velocity,
+                                                                 unit_list[self.__units]))
+                self.logger.info('Orc Priority: {}'.format(orc.priority))
 
     def display_orcs_distance(self):
         """
@@ -68,6 +107,24 @@ class Game(object):
         for orc in self.__kingdom.orcs:
             self.logger.info('Orc velocity={} {}/HR'.format(orc.velocity,
                                                              unit_list[self.__units]))
+
+    def generate_orcs(self):
+        """
+        Generates 5 random orcs
+
+        :return: None
+        """
+
+        for _ in range(5):
+            orc_vel = random.randint(0, 50)
+            orc_dis = random.randint(0, 50)
+            orc_type_idx = random.randint(0, len(orc_types) - 1)
+            orc_pri_idx = random.randint(0, len(orc_priority) - 1)
+
+            temp_orc = orc_types[orc_type_idx](velocity=orc_vel, distance=orc_dis,
+                                               priority=orc_priority[orc_pri_idx])
+
+            self.__kingdom.add_orc([temp_orc])
 
     def get_orc(self, orc_id):
         """
@@ -106,6 +163,8 @@ class Game(object):
             self.commands[user_command](self)
         elif user_command[:2] == 'PR':
             self.set_priority(user_command[3:])
+        elif user_command[:2] == 'OD':
+            self.display_orc_detail(user_command[3:])
         else:
             self.logger.warning('Invalid command')
 
@@ -196,6 +255,8 @@ class Game(object):
                 'T': display_orc_types,
                 'R': remove_orc,
                 'U': set_units,
+                'G': generate_orcs,
+                'ENTer the Trees': clear_orcs,
                 '?': display_commands}
 
     command_docs = ['Command: P Desc: Check Perimeter',
@@ -206,4 +267,7 @@ class Game(object):
                     'Command: R Desc: Remove Orc By ID',
                     'Command: U Desc: Set Units',
                     'Command: PR [ID] [Priority] Desc: Sets orc with [ID] to [Priority]',
+                    'Command: OD [ID] Desc: Shows orc details',
+                    'Command: G Desc: Generates a list of 5 random orcs',
+                    'Command: ENTer the Trees Desc: Clears all orcs from game',
                     'Command: ? Desc: Display Commands']

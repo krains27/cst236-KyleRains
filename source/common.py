@@ -1,6 +1,6 @@
 """
 :mod:`source.common` -- Common values among game classes
-==============================================
+========================================================
 
 The following code will provide common values that cam be used
 between classes.
@@ -14,4 +14,7 @@ unit_list = {'Imperial': 'MI',
              'Parsec': 'PS',
              'Nautical': 'NM'}
 
+"""
+List of orc priorities
+"""
 orc_priority = ['HIGH', 'MEDIUM', 'LOW']

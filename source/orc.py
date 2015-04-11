@@ -22,13 +22,13 @@ class Orc(object):
     logger = logging.getLogger(__name__)
     orc_id = 0
 
-    def __init__(self, velocity=0, distance=0, type='Base'):
+    def __init__(self, velocity=0, distance=0, type='Base', priority='LOW'):
         Orc.orc_id += 1
         self.__velocity = velocity
         self.__distance = distance
         self.__type = type
         self.__id = Orc.orc_id
-        self.__priority = 'HIGH'
+        self.__priority = priority
         self.logger.info('Orc #{} created'.format(self.__id))
 
     @property
@@ -132,8 +132,9 @@ class StrongOrc(Orc):
     :param distance: Orc distance
     :type distance: int
     """
-    def __init__(self, velocity=0, distance=0):
-        super(StrongOrc, self).__init__(velocity=velocity, distance=distance, type='Strong')
+    def __init__(self, priority='LOW', velocity=0, distance=0):
+        super(StrongOrc, self).__init__(velocity=velocity, distance=distance, type='Strong',
+                                        priority=priority)
 
 
 class UglyOrc(Orc):
@@ -146,8 +147,9 @@ class UglyOrc(Orc):
     :param distance: Orc distance
     :type distance: int
     """
-    def __init__(self, velocity=0, distance=0):
-        super(UglyOrc, self).__init__(velocity=velocity, distance=distance, type='Ugly')
+    def __init__(self, priority='LOW', velocity=0, distance=0):
+        super(UglyOrc, self).__init__(velocity=velocity, distance=distance, type='Ugly',
+                                      priority=priority)
 
 
 class StinkyOrc(Orc):
@@ -160,8 +162,9 @@ class StinkyOrc(Orc):
     :param distance: Orc distance
     :type distance: int
     """
-    def __init__(self, velocity=0, distance=0):
-        super(StinkyOrc, self).__init__(velocity=velocity, distance=distance, type='Stinky')
+    def __init__(self, priority='LOW', velocity=0, distance=0):
+        super(StinkyOrc, self).__init__(velocity=velocity, distance=distance, type='Stinky',
+                                        priority=priority)
 
 
 class GiantOrc(Orc):
@@ -174,8 +177,9 @@ class GiantOrc(Orc):
     :param distance: Orc distance
     :type distance: int
     """
-    def __init__(self, velocity=0, distance=0):
-        super(GiantOrc, self).__init__(velocity=velocity, distance=distance, type='Giant')
+    def __init__(self, priority='LOW', velocity=0, distance=0):
+        super(GiantOrc, self).__init__(velocity=velocity, distance=distance, type='Giant',
+                                       priority=priority)
 
 
 class WeakOrc(Orc):
@@ -188,8 +192,9 @@ class WeakOrc(Orc):
     :param distance: Orc distance
     :type distance: int
     """
-    def __init__(self, velocity=0, distance=0):
-        super(WeakOrc, self).__init__(velocity=velocity, distance=distance, type='Weak')
+    def __init__(self, priority='LOW', velocity=0, distance=0):
+        super(WeakOrc, self).__init__(velocity=velocity, distance=distance, type='Weak',
+                                      priority=priority)
 
 
 class ZombieOrc(Orc):
@@ -202,8 +207,9 @@ class ZombieOrc(Orc):
     :param distance: Orc distance
     :type distance: int
     """
-    def __init__(self, velocity=0, distance=0):
-        super(ZombieOrc, self).__init__(velocity=velocity, distance=distance, type='Zombie')
+    def __init__(self, priority='LOW', velocity=0, distance=0):
+        super(ZombieOrc, self).__init__(velocity=velocity, distance=distance, type='Zombie',
+                                        priority=priority)
 
 
 class ArmoredOrc(Orc):
@@ -216,8 +222,9 @@ class ArmoredOrc(Orc):
     :param distance: Orc distance
     :type distance: int
     """
-    def __init__(self, velocity=0, distance=0):
-        super(ArmoredOrc, self).__init__(velocity=velocity, distance=distance, type='Armored')
+    def __init__(self, priority='LOW', velocity=0, distance=0):
+        super(ArmoredOrc, self).__init__(velocity=velocity, distance=distance, type='Armored',
+                                         priority=priority)
 
 
 class FastOrc(Orc):
@@ -230,5 +237,9 @@ class FastOrc(Orc):
     :param distance: Orc distance
     :type distance: int
     """
-    def __init__(self, velocity=0, distance=0):
-        super(FastOrc, self).__init__(velocity=velocity, distance=distance, type='Fast')
+    def __init__(self, priority='LOW', velocity=0, distance=0):
+        super(FastOrc, self).__init__(velocity=velocity, distance=distance, type='Fast',
+                                      priority=priority)
+
+orc_types = [StrongOrc, UglyOrc, StrongOrc, GiantOrc, WeakOrc, ZombieOrc, ArmoredOrc,
+             FastOrc]

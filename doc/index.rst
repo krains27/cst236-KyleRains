@@ -14,6 +14,7 @@ Contents:
    code/game.rst
    code/kingdom.rst
    code/orc.rst
+   code/common.rst
 
 
 Indices and tables

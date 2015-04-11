@@ -157,6 +157,9 @@ class TestGame(TestCase):
             ('source.game', 'INFO', 'Command: R Desc: Remove Orc By ID'),
             ('source.game', 'INFO', 'Command: U Desc: Set Units'),
             ('source.game', 'INFO', 'Command: PR [ID] [Priority] Desc: Sets orc with [ID] to [Priority]'),
+            ('source.game', 'INFO', 'Command: OD [ID] Desc: Shows orc details'),
+            ('source.game', 'INFO', 'Command: G Desc: Generates a list of 5 random orcs'),
+            ('source.game', 'INFO', 'Command: ENTer the Trees Desc: Clears all orcs from game'),
             ('source.game', 'INFO', 'Command: ? Desc: Display Commands')
         )
 
@@ -601,7 +604,7 @@ class TestGame(TestCase):
 
     def test_priority_HIGH_orc(self):
         with LogCapture() as l:
-            __builtin__.raw_input = lambda _: 'PR 1 HIGH'  # Orc ID
+            __builtin__.raw_input = lambda _: 'PR 1 HIGH'
             test_game = Game()
             test_game.set_alert_level(module='source.game', level=logging.WARNING)
             test_game.set_alert_level(module='source.kingdom', level=logging.WARNING)
@@ -618,7 +621,7 @@ class TestGame(TestCase):
 
     def test_priority_MEDIUM_orc(self):
         with LogCapture() as l:
-            __builtin__.raw_input = lambda _: 'PR 1 MEDIUM'  # Orc ID
+            __builtin__.raw_input = lambda _: 'PR 1 MEDIUM'
             test_game = Game()
             test_game.set_alert_level(module='source.game', level=logging.WARNING)
             test_game.set_alert_level(module='source.kingdom', level=logging.WARNING)
@@ -635,7 +638,7 @@ class TestGame(TestCase):
 
     def test_priority_LOW_orc(self):
         with LogCapture() as l:
-            __builtin__.raw_input = lambda _: 'PR 1 LOW'  # Orc ID
+            __builtin__.raw_input = lambda _: 'PR 1 LOW'
             test_game = Game()
             test_game.set_alert_level(module='source.game', level=logging.WARNING)
             test_game.set_alert_level(module='source.kingdom', level=logging.WARNING)
@@ -652,7 +655,7 @@ class TestGame(TestCase):
 
     def test_priority_invalid_priority(self):
         with LogCapture() as l:
-            __builtin__.raw_input = lambda _: 'PR 1 CUSTOM'  # Orc ID
+            __builtin__.raw_input = lambda _: 'PR 1 CUSTOM'
             test_game = Game()
             test_game.set_alert_level(module='source.game', level=logging.WARNING)
             test_game.set_alert_level(module='source.kingdom', level=logging.WARNING)
@@ -670,7 +673,7 @@ class TestGame(TestCase):
 
     def test_priority_invalid_command(self):
         with LogCapture() as l:
-            __builtin__.raw_input = lambda _: 'PR 1'  # Orc ID
+            __builtin__.raw_input = lambda _: 'PR 1'
             test_game = Game()
             test_game.set_alert_level(module='source.orc', level=logging.WARNING)
             test_game.set_alert_level(module='source.kingdom', level=logging.WARNING)
@@ -679,3 +682,64 @@ class TestGame(TestCase):
         l.check(
             ('source.game', 'WARNING', 'Invalid priority command')
         )
+
+    def test_show_orc_details(self):
+        with LogCapture() as l:
+            __builtin__.raw_input = lambda _: 'OD 1'
+            test_game = Game()
+            test_game.set_alert_level(module='source.orc', level=logging.WARNING)
+            test_game.set_alert_level(module='source.kingdom', level=logging.WARNING)
+            test_game._Game__kingdom.add_orc(orcs=[StrongOrc(distance=1, velocity=7)])
+            test_game.handle_command()
+
+        l.check(
+            ('source.game', 'INFO', 'Orc ID: 1'),
+            ('source.game', 'INFO', 'Orc Type: Strong'),
+            ('source.game', 'INFO', 'Orc Distance: 1 MI'),
+            ('source.game', 'INFO', 'Orc Velocity: 7 MI/HR'),
+            ('source.game', 'INFO', 'Orc Priority: LOW')
+        )
+
+    def test_show_orc_details_invalid_id(self):
+        with LogCapture() as l:
+            __builtin__.raw_input = lambda _: 'OD 3'
+            test_game = Game()
+            test_game.set_alert_level(module='source.orc', level=logging.WARNING)
+            test_game.set_alert_level(module='source.kingdom', level=logging.WARNING)
+            test_game._Game__kingdom.add_orc(orcs=[StrongOrc(distance=1, velocity=7)])
+            test_game.handle_command()
+
+        l.check(
+            ('source.game', 'WARNING', 'Orc ID 3 is an invalid ID')
+        )
+
+    def test_show_orc_details_invalid_detail_command(self):
+        with LogCapture() as l:
+            __builtin__.raw_input = lambda _: 'OD'
+            test_game = Game()
+            test_game.set_alert_level(module='source.orc', level=logging.WARNING)
+            test_game.set_alert_level(module='source.kingdom', level=logging.WARNING)
+            test_game.handle_command()
+
+        l.check(
+            ('source.game', 'WARNING', 'Invalid detail command')
+        )
+
+    def test_generate_orcs(self):
+        __builtin__.raw_input = lambda _: 'G'
+        test_game = Game()
+        test_game.handle_command()
+
+        self.assertEqual(len(test_game._Game__kingdom.orcs), 5)
+
+    def test_enter_trees(self):
+        __builtin__.raw_input = lambda _: 'G'
+        test_game = Game()
+        test_game.handle_command()
+
+        self.assertEqual(len(test_game._Game__kingdom.orcs), 5)
+
+        __builtin__.raw_input = lambda _: 'ENTer the Trees'
+        test_game.handle_command()
+
+        self.assertEqual(len(test_game._Game__kingdom.orcs), 0)

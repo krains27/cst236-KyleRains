@@ -34,6 +34,14 @@ class Kingdom(object):
                                                                                               orc.distance,
                                                                                               unit_list[self.__units]))
 
+    def clear_orcs(self):
+        """
+        Clears orcs from kingdom
+
+        :return: None
+        """
+        self.__orcs_attacking = []
+
     def check_perimeter(self):
         """
         Checks the list of attacking orcs to see if an orc has breached the
