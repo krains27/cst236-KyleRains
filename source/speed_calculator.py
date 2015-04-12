@@ -25,11 +25,56 @@ class SpeedCalculator(object):
         self.cities = []
         self.distances = []
         self.speeds = []
+        self.route = []
         self.__transfer_speed = 1
         self.__driving_speed = 55
         self.__hdd_size = 0
         self.__current_city = ''
+        self.__starting_city = ''
+        self.__latency = 0
+        self.__drive_speed = 1.0
         self.file_hnd = None
+
+    def add_to_route(self, city):
+        """
+        Adds city to current route
+
+        :param city: City to add
+        :type city: basestring
+
+        :return: None
+        """
+        self.city = city
+        self.route.append(city)
+
+    def calculate_driving_time(self):
+        """
+        Calculates the time to drive hard drive
+
+        :return: Time in hours
+        :rtype: float
+        """
+        try:
+            distance_index = self.cities.index(self.__current_city)
+            driving_time = self.distances[distance_index] / float(self.__driving_speed)
+        except ValueError:
+            pass
+
+        return driving_time
+
+    def calculate_transfer_time(self):
+        """
+        Calculate time to transfer data
+
+        :return: Time to transfer data in hours
+        :rtype: float
+        """
+        transfer_time = (self.__hdd_size * 8 * 10 ** 9) / float((self.__transfer_speed * 10 ** 6))
+        transfer_time += (self.__latency * 10 ** -3)
+        time_hdd_speed = max(transfer_time, ((self.__hdd_size * 8 * 10 ** 9)/ float(self.__drive_speed * 10 ** 9)))
+        time_hdd_speed /= 3600  # Convert to hours
+
+        return time_hdd_speed
 
     def determine_faster_method(self):
         """
@@ -38,14 +83,9 @@ class SpeedCalculator(object):
         :return: Either Driving or Transferring
         :rtype: basestring
         """
-        try:
-            distance_index = self.cities.index(self.__current_city)
-            driving_time = self.distances[distance_index] / float(self.__driving_speed)
-        except ValueError:
-            pass
+        driving_time = self.calculate_driving_time()
 
-        transfer_time = (self.__hdd_size * 8 * 10 ** 9) / float((self.__transfer_speed * 10 ** 6))
-        transfer_time /= 3600  # Convert to hours
+        transfer_time = self.calculate_transfer_time()
 
         if transfer_time > driving_time:
             return 'Driving'
@@ -59,14 +99,9 @@ class SpeedCalculator(object):
         :return: Time difference
         :rtype: float
         """
-        try:
-            distance_index = self.cities.index(self.__current_city)
-            driving_time = self.distances[distance_index] / float(self.__driving_speed)
-        except ValueError:
-            pass
+        driving_time = self.calculate_driving_time()
 
-        transfer_time = (self.__hdd_size * 8 * 10 ** 9) / float((self.__transfer_speed * 10 ** 6))
-        transfer_time /= 3600  # Convert to hours
+        transfer_time = self.calculate_transfer_time()
 
         return max(driving_time, transfer_time) - min(driving_time, transfer_time)
 
@@ -120,6 +155,72 @@ class SpeedCalculator(object):
                 self.file_hnd.write(city + '\n')
 
         self.__current_city = city
+
+    @property
+    def drive_speed(self):
+        """
+        Returns the drive speed
+
+        :return: Drive speed
+        :rtype: float
+        """
+        return self.__drive_speed
+
+    @drive_speed.setter
+    def drive_speed(self, speed):
+        """
+        Sets the drive speed
+
+        :param speed: Drive speed
+        :type speed: float
+
+        :return: None
+        """
+        self.__drive_speed = speed
+
+    @property
+    def latency(self):
+        """
+        Return network latency
+
+        :return: Network latency
+        :rtype: int
+        """
+        return self.__latency
+
+    @latency.setter
+    def latency(self, lat):
+        """
+        Sets the network latency
+
+        :param lat: Network latency
+        :type lat: int
+
+        :return: None
+        """
+        self.__latency = lat
+
+    @property
+    def starting_city(self):
+        """
+        Returns the starting city
+
+        :return: Starting City
+        :rtype: basestring
+        """
+        return self.__starting_city
+
+    @starting_city.setter
+    def starting_city(self, s_city):
+        """
+        Sets the starting city
+
+        :param s_city: Starting city
+        :type s_city: basestring
+
+        :return: None
+        """
+        self.__starting_city = s_city
 
     @property
     def transfer_speed(self):

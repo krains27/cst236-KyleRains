@@ -266,10 +266,74 @@ def step_impl(context):
 
 @when('city is entered (file)')
 def step_impl(context):
-    #context.speed_calc.file_hnd = context.city_file
     context.speed_calc.city = 'Klamath Falls'
 
 @then('city will be written to city file')
 def step_impl(context):
     context.write_file.seek(0)
     tools.eq_(context.write_file.buf, 'Klamath Falls\n')
+
+@given('10 different cities')
+def step_impl(context):
+    context.speed_calc = SpeedCalculator()
+    context.cities = ['Portland', 'Seattle', 'Los Angeles', 'San Diego', 'Las Vegas',
+                      'Salem', 'Reno', 'Klamath Falls', 'Grants Pass', 'Chicago']
+
+@when('cities are added to route')
+def step_impl(context):
+    for city in context.cities:
+        context.speed_calc.add_to_route(city)
+
+@then('cities will be saved in route')
+def step_impl(context):
+    tools.eq_(context.cities, context.speed_calc.route)
+
+
+@given('a city')
+def step_impl(context):
+    context.speed_calc = SpeedCalculator()
+    context.starting_city = 'Keizer'
+
+@when('starting city is set to city')
+def step_impl(context):
+    context.speed_calc.starting_city = context.starting_city
+
+@then('starting city will be given city')
+def step_impl(context):
+    tools.eq_(context.starting_city, context.speed_calc.starting_city)
+
+@given('a latency')
+def step_impl(context):
+    context.speed_calc = SpeedCalculator()
+    context.latency = 300
+
+@when('transfer time is calculated')
+def step_impl(context):
+    context.speed_calc.hdd_size = 500
+    context.speed_calc.transfer_speed = 100
+    context.no_lat = context.speed_calc.calculate_transfer_time()
+
+    context.speed_calc.latency = context.latency
+    context.with_lat = context.speed_calc.calculate_transfer_time()
+
+@then('the calculation will account for the latency')
+def step_impl(context):
+    tools.assert_not_equal(context.with_lat, context.no_lat)
+
+@given('a hard drive speed')
+def step_impl(context):
+    context.speed_calc = SpeedCalculator()
+    context.drive_speed = 10 ** -15
+
+@when('transfer time is calculated (hdd)')
+def step_impl(context):
+    context.speed_calc.hdd_size = 500
+    context.speed_calc.transfer_speed = 100
+    context.no_affect = context.speed_calc.calculate_transfer_time()
+
+    context.speed_calc.drive_speed = context.drive_speed
+    context.affect = context.speed_calc.calculate_transfer_time()
+
+@then('the calculation will account for the hard drive speed')
+def step_impl(context):
+    tools.assert_not_equal(context.affect, context.no_affect)
