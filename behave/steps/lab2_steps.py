@@ -5,7 +5,7 @@ import StringIO
 from nose import tools
 sys.path.insert(0, os.path.abspath(".."))
 
-from source.speed_calculator import SpeedCalculator
+from source.speed_calculator import SpeedCalculator, PresetSpeeds
 
 
 @given('a city text file')
@@ -178,3 +178,98 @@ def step_impl(context):
 @then('difference equals ~1.72 hours')
 def step_impl(context):
     tools.assert_almost_equal(context.result, 1.72, 2)
+
+
+@given('Porsche preset speed equals 100')
+def step_impl(context):
+    context.speed_calc = SpeedCalculator()
+    tools.eq_(PresetSpeeds.PORSCHE, 100)
+
+@when('Porsche preset selected')
+def step_impl(context):
+    context.speed_calc.driving_speed = PresetSpeeds.PORSCHE
+
+
+@then('driving speed will be 100')
+def step_impl(context):
+    tools.eq_(context.speed_calc.driving_speed, 100)
+
+
+@given('Bus preset speed equals 65')
+def step_impl(context):
+    context.speed_calc = SpeedCalculator()
+    tools.eq_(PresetSpeeds.BUS, 65)
+
+@when('Bus preset selected')
+def step_impl(context):
+    context.speed_calc.driving_speed = PresetSpeeds.BUS
+
+
+@then('driving speed will be 65')
+def step_impl(context):
+    tools.eq_(context.speed_calc.driving_speed, 65)
+
+
+@given('Cement Truck preset speed equals 55')
+def step_impl(context):
+    context.speed_calc = SpeedCalculator()
+    tools.eq_(PresetSpeeds.CEMENT_TRUCK, 55)
+
+@when('Cement Truck preset selected')
+def step_impl(context):
+    context.speed_calc.driving_speed = PresetSpeeds.CEMENT_TRUCK
+
+
+@then('driving speed will be 55')
+def step_impl(context):
+    tools.eq_(context.speed_calc.driving_speed, 55)
+
+
+@given('Swallow preset speed equals 10')
+def step_impl(context):
+    context.speed_calc = SpeedCalculator()
+    tools.eq_(PresetSpeeds.SWALLOW, 10)
+
+@when('Swallow preset selected')
+def step_impl(context):
+    context.speed_calc.driving_speed = PresetSpeeds.SWALLOW
+
+
+@then('driving speed will be 10')
+def step_impl(context):
+    tools.eq_(context.speed_calc.driving_speed, 10)
+
+
+@given('city not in list of cities')
+def step_impl(context):
+    context.speed_calc = SpeedCalculator()
+    tools.assert_not_in('Klamath Falls', context.speed_calc.cities)
+
+@when('city is entered')
+def step_impl(context):
+    context.speed_calc.city = 'Klamath Falls'
+
+
+@then('city will be added to list of cities')
+def step_impl(context):
+    tools.assert_in('Klamath Falls', context.speed_calc.cities)
+
+
+@given('city not in list of cities (file)')
+def step_impl(context):
+    context.write_file = StringIO.StringIO()
+
+    context.speed_calc = SpeedCalculator()
+    context.speed_calc.read_file(context.write_file, 'city')
+
+    tools.assert_not_in('Klamath Falls', context.speed_calc.cities)
+
+@when('city is entered (file)')
+def step_impl(context):
+    #context.speed_calc.file_hnd = context.city_file
+    context.speed_calc.city = 'Klamath Falls'
+
+@then('city will be written to city file')
+def step_impl(context):
+    context.write_file.seek(0)
+    tools.eq_(context.write_file.buf, 'Klamath Falls\n')

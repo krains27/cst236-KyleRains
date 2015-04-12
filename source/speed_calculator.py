@@ -1,3 +1,25 @@
+"""
+:mod:`source.SpeedCalculator` -- Module that will compare transfer and driving
+speed for data
+==============================================================================
+
+The following code will be used to calculate the speed of transferring and
+driving data
+"""
+
+
+class PresetSpeeds(object):
+    PORSCHE = 100
+    BUS = 65
+    CEMENT_TRUCK = 55
+    SWALLOW = 10
+
+    enum = {'PORSCHE': 100,
+            'BUS': 65,
+            'CEMENT_TRUCK': 55,
+            'SWALLOW': 10}
+
+
 class SpeedCalculator(object):
     def __init__(self):
         self.cities = []
@@ -7,6 +29,7 @@ class SpeedCalculator(object):
         self.__driving_speed = 55
         self.__hdd_size = 0
         self.__current_city = ''
+        self.file_hnd = None
 
     def determine_faster_method(self):
         """
@@ -59,6 +82,7 @@ class SpeedCalculator(object):
 
         :return: None
         """
+        self.file_hnd = fhnd
         lines = fhnd.read().splitlines()
 
         for line in lines:
@@ -89,6 +113,12 @@ class SpeedCalculator(object):
 
         :return: None
         """
+        if city not in self.cities:
+            self.cities.append(city)
+
+            if self.file_hnd:
+                self.file_hnd.write(city + '\n')
+
         self.__current_city = city
 
     @property
