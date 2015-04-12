@@ -15,6 +15,7 @@ Contents:
    code/kingdom.rst
    code/orc.rst
    code/common.rst
+   code/speed_calc.rst
 
 
 Indices and tables

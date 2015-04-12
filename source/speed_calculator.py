@@ -9,6 +9,9 @@ driving data
 
 
 class PresetSpeeds(object):
+    """
+    Preset speeds to choose from
+    """
     PORSCHE = 100
     BUS = 65
     CEMENT_TRUCK = 55
@@ -21,6 +24,10 @@ class PresetSpeeds(object):
 
 
 class SpeedCalculator(object):
+    """
+    Determines whether it's faster to transfer data or
+    drive it
+    """
     def __init__(self):
         self.cities = []
         self.distances = []
