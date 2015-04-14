@@ -16,6 +16,7 @@ Contents:
    code/orc.rst
    code/common.rst
    code/speed_calc.rst
+   code/features.rst
 
 
 Indices and tables
