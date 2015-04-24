@@ -1,0 +1,140 @@
+Requirement: #0015
+Description: The system shall accept and store answers to previous questions in the form of a string or a function pointer and store it as the generator function.
+Tests:
+test_updating_answer_func
+test_updating_answer_string
+
+
+Requirement: #0021
+Description: The system shall respond to the question "Why don't you shutdown" with "I'm afraid I can't do that <username>"
+Tests:
+test_answer_to_shutdown_question_valid
+
+
+Requirement: #0012
+Description: If no previous question has been asked the system shall respond with "Please ask a question first"
+Tests:
+test_provide_answer_no_question
+
+
+Requirement: #0020
+Description: The system shall respond to the question "Why don't you understand me" with "Because you do not speak 1s and 0s"
+Tests:
+test_answer_to_understand_question_valid
+
+
+Requirement: #0010
+Description: The system shall provide a means of providing an answer to the previously asked question.
+Tests:
+test_provide_answer_string
+
+
+Requirement: #0017
+Description: The system shall respond to the question "What is <float> feet in miles" with the the float value divided by 5280 and append "miles" to the end of  the return.
+Tests:
+test_answer_to_feet_question
+test_answer_to_feet_question_neg
+
+
+Requirement: #0016
+Description: If no previous question has been asked the system shall respond with "Please ask a question first"
+Tests:
+test_updating_answer_no_question
+
+
+Requirement: #0006
+Description: The system shall determine an answer to a question as a correct if the keywords provide a 90% match and return the answer
+Tests:
+test_answer_question_90_percent
+test_answer_question_less_90_percent
+
+
+Requirement: #0007
+Description: The system shall exclude any number value from match code and provide the values to generator function (if one exists)
+Tests:
+test_exclude_number
+test_exclude_number_ending
+test_exclude_number_hex
+test_exclude_number_oct
+
+
+Requirement: #0004
+Description: If the system does not detect a question mark at end of the string it shall return "Was that a question?"
+Tests:
+test_no_question_mark
+
+
+Requirement: #0005
+Description: The system shall break a question down into words separated by space
+Tests:
+test_broken_down_question
+
+
+Requirement: #0002
+Description: The system shall answer questions that begin with one of the following valid question keywords: "How", "What", "Where", "Why" and "Who"
+Tests:
+test_answer_question_how
+test_answer_question_what
+test_answer_question_where
+test_answer_question_who
+test_answer_question_why
+
+
+Requirement: #0003
+Description: If the system does not detect a valid question keyword it shall return "Was that a question?"
+Tests:
+test_invalid_keyword
+
+
+Requirement: #0013
+Description: If an attempt is made to provide an answer to an already answered question the system shall respond with "I don\'t know about that. I was taught differently" and not update the question
+Tests:
+test_answer_to_answered_question
+
+
+Requirement: #0001
+Description: The system shall accept questions in the form of strings and attempt to answer them
+Tests:
+test_question_as_string
+test_question_as_string_int
+
+
+Requirement: #0011
+Description: The system shall accept and store answers to previous questions in the form of a string or a function pointer and store it as the generator function.
+Tests:
+test_provide_answer_func
+test_provide_answer_string
+
+
+Requirement: #0014
+Description: The system shall provide a means of updating an answer to the previously asked question.
+Tests:
+test_updating_answer_string
+
+
+Requirement: #0019
+Description: The system shall respond to the question "Who invented Python" with "Guido Rossum(BFDL)"
+Tests:
+test_answer_to_python_question_valid
+
+
+Requirement: #0018
+Description: The system shall respond to the question "How many seconds since <date time>" with the number of seconds from that point of day till now.
+Tests:
+test_answer_to_time_question_date_time_format
+test_answer_to_time_question_date_time_separated
+test_answer_to_time_question_no_date_time
+
+
+Requirement: #0008
+Description: When a valid match is determined the system shall return the answer
+Tests:
+test_valid_match
+
+
+Requirement: #0009
+Description: When no valid match is determined the system shall return "I don't know, please provide the answer"
+Tests:
+test_invalid_match
+
+
