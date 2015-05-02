@@ -1,45 +1,7 @@
-Requirement: #0015
-Description: The system shall accept and store answers to previous questions in the form of a string or a function pointer and store it as the generator function.
+Requirement: #0030
+Description: If too many parameters are sent to the generator, an exception will be thrown
 Tests:
-test_updating_answer_func
-test_updating_answer_string
-
-
-Requirement: #0021
-Description: The system shall respond to the question "Why don't you shutdown" with "I'm afraid I can't do that <username>"
-Tests:
-test_answer_to_shutdown_question_valid
-
-
-Requirement: #0012
-Description: If no previous question has been asked the system shall respond with "Please ask a question first"
-Tests:
-test_provide_answer_no_question
-
-
-Requirement: #0020
-Description: The system shall respond to the question "Why don't you understand me" with "Because you do not speak 1s and 0s"
-Tests:
-test_answer_to_understand_question_valid
-
-
-Requirement: #0010
-Description: The system shall provide a means of providing an answer to the previously asked question.
-Tests:
-test_provide_answer_string
-
-
-Requirement: #0017
-Description: The system shall respond to the question "What is <float> feet in miles" with the the float value divided by 5280 and append "miles" to the end of  the return.
-Tests:
-test_answer_to_feet_question
-test_answer_to_feet_question_neg
-
-
-Requirement: #0016
-Description: If no previous question has been asked the system shall respond with "Please ask a question first"
-Tests:
-test_updating_answer_no_question
+test_too_may_params
 
 
 Requirement: #0006
@@ -54,8 +16,6 @@ Description: The system shall exclude any number value from match code and provi
 Tests:
 test_exclude_number
 test_exclude_number_ending
-test_exclude_number_hex
-test_exclude_number_oct
 
 
 Requirement: #0004
@@ -86,17 +46,108 @@ Tests:
 test_invalid_keyword
 
 
-Requirement: #0013
-Description: If an attempt is made to provide an answer to an already answered question the system shall respond with "I don\'t know about that. I was taught differently" and not update the question
-Tests:
-test_answer_to_answered_question
-
-
 Requirement: #0001
 Description: The system shall accept questions in the form of strings and attempt to answer them
 Tests:
 test_question_as_string
 test_question_as_string_int
+
+
+Requirement: #0024
+Description: The system shall respond to the question "Who else is here" with a list of users
+Tests:
+test_answer_to_who_else
+
+
+Requirement: #0025
+Description: When determining users the system shall connect to the server at ip address 192.168.64.3 port 1337 and sending a message "Who?"
+Tests:
+test_answer_to_who_else_connection_call
+
+
+Requirement: #0026
+Description: If a response is received from the server the user list shall be parsed from a "$" seperated list of users
+Tests:
+test_answer_to_who_else
+
+
+Requirement: #0027
+Description: If no response is received from the server the system shall return "IT'S A TRAAAPPPP"
+Tests:
+test_answer_to_who_else_exception
+
+
+Requirement: #0020
+Description: The system shall respond to the question "Why don't you understand me" with "Because you do not speak 1s and 0s"
+Tests:
+test_answer_to_understand_question_valid
+
+
+Requirement: #0021
+Description: The system shall respond to the question "Why don't you shutdown" with "I'm afraid I can't do that <username>"
+Tests:
+test_answer_to_shutdown_question_valid
+
+
+Requirement: #0022
+Description: The system shall respond to the question "Where am I" with the local git branch name or "unknown" if it can't be determined
+Tests:
+test_answer_to_where_am_question
+test_answer_to_where_am_question_unknown_exception
+test_answer_to_where_am_question_unknown_no_exception
+
+
+Requirement: #0009
+Description: When no valid match is determined the system shall return "I don't know, please provide the answer"
+Tests:
+test_invalid_match
+
+
+Requirement: #0028
+Description: The system shall respond to the question "What is the <int> digit of the Fibonacci sequence?" with the correct number from the fibonnacci sequence if the number has been found
+Tests:
+test_fibonacci_answer_0
+test_fibonacci_answer_1
+
+
+Requirement: #0008
+Description: When a valid match is determined the system shall return the answer
+Tests:
+test_valid_match
+
+
+Requirement: #0029
+Description: If the system has not determined the requested digit of the Fibonacci sequence it will respond with A)"Thinking...", B)"One second" or C)"cool your jets" based on a randomly generated number (A is 60% chance, B is 30% chance, C is 10% chance)
+Tests:
+test_fibonacci_answer_cool_jets
+test_fibonacci_answer_one_second
+test_fibonacci_answer_thinking
+
+
+Requirement: #0015
+Description: The system shall accept and store answers to previous questions in the form of a string or a function pointer and store it as the generator function.
+Tests:
+test_updating_answer_func
+test_updating_answer_string
+
+
+Requirement: #0014
+Description: The system shall provide a means of updating an answer to the previously asked question.
+Tests:
+test_updating_answer_string
+
+
+Requirement: #0017
+Description: The system shall respond to the question "What is <float> feet in miles" with the the float value divided by 5280 and append "miles" to the end of  the return.
+Tests:
+test_answer_to_feet_question
+test_answer_to_feet_question_neg
+
+
+Requirement: #0016
+Description: If no previous question has been asked the system shall respond with "Please ask a question first"
+Tests:
+test_updating_answer_no_question
 
 
 Requirement: #0011
@@ -106,10 +157,30 @@ test_provide_answer_func
 test_provide_answer_string
 
 
-Requirement: #0014
-Description: The system shall provide a means of updating an answer to the previously asked question.
+Requirement: #0010
+Description: The system shall provide a means of providing an answer to the previously asked question.
 Tests:
-test_updating_answer_string
+test_provide_answer_string
+
+
+Requirement: #0013
+Description: If an attempt is made to provide an answer to an already answered question the system shall respond with "I don\'t know about that. I was taught differently" and not update the question
+Tests:
+test_answer_to_answered_question
+
+
+Requirement: #0012
+Description: If no previous question has been asked the system shall respond with "Please ask a question first"
+Tests:
+test_provide_answer_no_question
+
+
+Requirement: #0023
+Description: The system shall respond to the question "Where are you" with the URL for the git repo or "unknown" if it can't be determined
+Tests:
+test_answer_to_where_you_question
+test_answer_to_where_you_question_exception
+test_answer_to_where_you_question_no_exception
 
 
 Requirement: #0019
@@ -118,23 +189,4 @@ Tests:
 test_answer_to_python_question_valid
 
 
-Requirement: #0018
-Description: The system shall respond to the question "How many seconds since <date time>" with the number of seconds from that point of day till now.
-Tests:
-test_answer_to_time_question_date_time_format
-test_answer_to_time_question_date_time_separated
-test_answer_to_time_question_no_date_time
-
-
-Requirement: #0008
-Description: When a valid match is determined the system shall return the answer
-Tests:
-test_valid_match
-
-
-Requirement: #0009
-Description: When no valid match is determined the system shall return "I don't know, please provide the answer"
-Tests:
-test_invalid_match
-
-
+Requirement Coverage: 100.0
