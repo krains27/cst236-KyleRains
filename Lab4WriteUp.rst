@@ -21,7 +21,7 @@ What are the advantages of data mutation? Did you use any of these tools?
 
 Data mutation provides a way to test tests. If you have a test that can't fail, then
 it really isn't testing anything. Data mutation will provide you a way to see if your
-test can fail.  
+test can fail. No I didn't provide a method for data manipulation. 
 
 What did you use Mock for in this lab?
 ======================================
