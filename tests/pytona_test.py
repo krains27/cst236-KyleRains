@@ -61,10 +61,10 @@ class BaseTest(TestCase):
     def tearDown(self):
         if answer.seq_finder:
             answer.seq_finder.stop()
+            answer.seq_finder = None
 
         if os.path.exists(self.fname):
-             os.remove(self.fname)
-
+            os.remove(self.fname)
 
 
 class TestPytona(BaseTest):
@@ -694,16 +694,28 @@ class TestPytona(BaseTest):
     def test_fibonacci_answer_100(self):
         question_str = 'What is the 100 digit of the Fibonacci Sequence' + QUESTION_MARK
         self.test_pytona.ask(question=question_str)
-        time.sleep(60)
+
+        start = time.clock()
+
         result = self.test_pytona.ask(question=question_str)
-        self.assertEqual(result, 354224848179261915075)
+
+        while time.clock() - start < 60 and result in ["Thinking...", "One second", "cool your jets"]:
+            result = self.test_pytona.ask(question=question_str)
+
+        self.assertEqual(result, 354224848179261915075, 'Verify correct result')
 
     @requirements(['#0033'])
     def test_fibonacci_answer_1000(self):
         question_str = 'What is the 1000 digit of the Fibonacci Sequence' + QUESTION_MARK
         self.test_pytona.ask(question=question_str)
-        time.sleep(60)
+
+        start = time.clock()
+
         result = self.test_pytona.ask(question=question_str)
+
+        while time.clock() - start < 60 and result in ["Thinking...", "One second", "cool your jets"]:
+            result = self.test_pytona.ask(question=question_str)
+
         self.assertEqual(result, THOUSANDTH_FIB_DIGIT)
 
     @requirements(['#0033'])
