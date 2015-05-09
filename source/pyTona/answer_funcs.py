@@ -4,6 +4,7 @@ import socket
 import subprocess
 import threading
 import time
+import Queue
 
 seq_finder = None
 
@@ -38,7 +39,7 @@ def get_git_url():
 def get_other_users():
     try:
         host = '192.168.64.3'
-        port = '1337'
+        port = 1337
 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.connect((host, port))
@@ -47,7 +48,7 @@ def get_other_users():
         s.close()
         return data.split('$')
 
-    except Exception:
+    except:
         return "IT'S A TRAAAPPPP"
 
 
@@ -56,14 +57,17 @@ class FibSeqFinder(threading.Thread):
         super(FibSeqFinder, self).__init__(*args, **kwargs)
         self.sequence = [0, 1]
         self._stop = threading.Event()
+        self.num_indexes = 0
 
     def stop(self):
         self._stop.set()
 
     def run(self):
-        while not self._stop.isSet():
+        self.num_indexes = 0
+        while not self._stop.isSet() and self.num_indexes < 1000:
             self.sequence.append(self.sequence[-1] + self.sequence[-2])
-            time.sleep(1.00)
+            self.num_indexes += 1
+            time.sleep(.04)
 
 def get_fibonacci_seq(index):
     index = int(index)
@@ -73,14 +77,95 @@ def get_fibonacci_seq(index):
         seq_finder = FibSeqFinder()
         seq_finder.start()
 
-    if index > len(seq_finder.sequence):
-        value = random.randint(0, 10)
-        if value > 6:
+    if index > seq_finder.num_indexes:
+        value = random.randint(0, 9)
+        if value >= 4:
             return "Thinking..."
-        elif value > 3:
+        elif value > 1:
             return "One second"
         else:
             return "cool your jets"
     else:
         return seq_finder.sequence[index]
+
+
+def calculate_prime(digit, q):
+    n = int(digit)
+
+    for p in range(2, n+1):
+        for i in range(2, p):
+            if p % i == 0:
+                break
+        else:
+            result = p
+
+    q.put(result)
+
+
+def get_prime_number(digit):
+    desired_digit = Queue.Queue()
+
+    if digit <= 10000:
+        thrd = threading.Thread(target=calculate_prime, args=(digit, desired_digit))
+        thrd.start()
+
+        thrd.join()
+
+        return desired_digit.get()
+
+    else:
+        return 'Digit too high'
+
+def add_number(number, q):
+    q.put(number)
+
+def get_number_list():
+    number_list = []
+    number_queue = Queue.Queue()
+
+    for thread_num in range(100):
+        thrd = threading.Thread(target=add_number, args=(thread_num, number_queue))
+
+        thrd.start()
+
+    while number_queue.qsize() > 0:
+        number_list.append(number_queue.get())
+
+    return number_list
+
+
+def calculate_square_root(num, q):
+    eps = 0.0000001
+    old = 1
+    new = 1
+    while True:
+        old, new = new, (new + num/new) / 2.0
+        if abs(new - old) < eps:
+            break
+    q.put(new)
+
+
+def get_square_root(num):
+    desired_digit = Queue.Queue()
+
+    if num <= 1000000:
+        thrd = threading.Thread(target=calculate_square_root, args=(num, desired_digit))
+        thrd.start()
+
+        thrd.join()
+
+        return desired_digit.get()
+
+    else:
+        return 'Digit too high'
+
+def read_file():
+    try:
+        with open('.\\source\\pyTona\\pytona_text_file.txt') as f:
+            bytes = f.read()
+
+            return len(bytes)
+
+    except:
+        return 'File doesn\'t exist'
 

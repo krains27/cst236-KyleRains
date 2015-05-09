@@ -1,5 +1,7 @@
 from pyTona.question_answer import QA
-from pyTona.answer_funcs import feet_to_miles, hal_20, get_git_branch, get_git_url, get_other_users, get_fibonacci_seq
+from pyTona.answer_funcs import (feet_to_miles, hal_20, get_git_branch, get_git_url,
+                                 get_other_users, get_fibonacci_seq, get_prime_number,
+                                 get_number_list, get_square_root, read_file)
 
 import difflib
 NOT_A_QUESTION_RETURN = "Was that a question?"
@@ -27,7 +29,11 @@ class Interface(object):
             'Where am I': QA('Where am I', get_git_branch),
             'Where are you': QA('Where are you', get_git_url),
             'Who else is here': QA('Who else is here', get_other_users),
-            'What is the digit of the Fibonacci sequence': QA('What is the digit of the Fibonacci sequence', get_fibonacci_seq)
+            'What is the digit of the Fibonacci sequence': QA('What is the digit of the Fibonacci sequence', get_fibonacci_seq),
+            'What is the last Prime numbers before': QA('What is the last Prime numbers before', get_prime_number),
+            'Where is the list of numbers I asked for': QA('Where is the list of numbers I asked for', get_number_list),
+            'What is the square root of': QA('What is the square root of', get_square_root),
+            'Why don\'t you go read a file': QA('Why don\'t you go read a file', read_file)
         }
         self.last_question = None
 
@@ -46,7 +52,7 @@ class Interface(object):
                     args.append(float(keyword))
                 except:
                     parsed_question += "{0} ".format(keyword)
-            parsed_question = parsed_question[0:-2]
+            parsed_question = parsed_question[0:-1]
             self.last_question = parsed_question
             for answer in self.question_answers.values():
                 if difflib.SequenceMatcher(a=answer.question, b=parsed_question).ratio() >= .90:
