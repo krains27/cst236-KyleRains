@@ -367,13 +367,31 @@ class TestPytona(BaseTest):
     @requirements(['#0028'])
     def test_fibonacci_answer_0(self):
         question_str = 'What is the 0 digit of the Fibonacci Sequence' + QUESTION_MARK
+
+        self.test_pytona.ask(question=question_str)
+
+        start = time.clock()
+
         result = self.test_pytona.ask(question=question_str)
+
+        while time.clock() - start < 60 and result in ["Thinking...", "One second", "cool your jets"]:
+            result = self.test_pytona.ask(question=question_str)
+
         self.assertEqual(result, 0)
 
     @requirements(['#0028'])
     def test_fibonacci_answer_1(self):
         question_str = 'What is the 1 digit of the Fibonacci Sequence' + QUESTION_MARK
+
+        self.test_pytona.ask(question=question_str)
+
+        start = time.clock()
+
         result = self.test_pytona.ask(question=question_str)
+
+        while time.clock() - start < 60 and result in ["Thinking...", "One second", "cool your jets"]:
+            result = self.test_pytona.ask(question=question_str)
+
         self.assertEqual(result, 1)
 
     @requirements(['#0029'])
