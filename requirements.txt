@@ -8,3 +8,4 @@ testfixtures
 behave
 nose
 radon
+matplotlib
