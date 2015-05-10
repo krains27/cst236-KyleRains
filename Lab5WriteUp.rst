@@ -43,7 +43,7 @@ basically the same as load testing except that it is used to test safety concern
 are no known safety concerns and load testing will suffice for this purpose. Endurance testing is testing the systems ability
 to function over time. I implemented this by asking the questions associated with the new requirements that I added 10000 times. 
 Spike testing is testing system performance for a specific load, spiking the load way above the previous load, and then spiking 
-back down to the previous load. I implemented this by asking a set of questions 100 times, spiking the question/answer pairs
-to over 1000000 and asking the same question 100 times. Then spiking back to original value, and asking the questions 100 times.
+back down to the previous load. I implemented this by asking a set of questions 10 times, spiking the question/answer pairs
+to over 1000000 and asking the same question 10 times. Then spiking back to original value, and asking the questions 10 times.
 Isolation testing is isolating a specific part of the system to ensure that it meets its performance requirements. I implemented this
 by isolation the dictionary operations for the store and retrieve functionality.
