@@ -939,7 +939,6 @@ class TestPytona(BaseTest):
 
         result = self.test_pytona.ask(question=question_str)
 
-
         self.assertEqual(result, test_list)
 
     @requirements(['#0037'])
@@ -967,7 +966,7 @@ class TestPytona(BaseTest):
 
         self.assertEqual(result, 'Digit too high')
 
-    @requirements(['#0041'])
+    @requirements(['#0038'])
     def test_square_root_max(self):
         question_str = 'What is the square root of 1000000' + QUESTION_MARK
 
@@ -975,7 +974,7 @@ class TestPytona(BaseTest):
 
         self.assertEqual(result, 1000)
 
-    @requirements(['#0041'])
+    @requirements(['#0038'])
     def test_square_root_float_result(self):
         question_str = 'What is the square root of 10' + QUESTION_MARK
 
@@ -983,9 +982,9 @@ class TestPytona(BaseTest):
 
         self.assertAlmostEqual(result, 3.1622, 3)
 
-    @requirements(['#0041'])
-    def test_square_root_max(self):
-        desired_time = 3 * (10 ** -3)
+    @requirements(['#0038'])
+    def test_square_root_max_performance(self):
+        desired_time = 10 * (10 ** -3)
         question_str = 'What is the square root of 1000000' + QUESTION_MARK
 
         start = time.clock()
@@ -995,7 +994,7 @@ class TestPytona(BaseTest):
         self.assertEqual(result, 1000)
         self.assertLess(elapsed_time, desired_time)
 
-    @requirements(['#0041'])
+    @requirements(['#0038'])
     def test_square_root_timing(self):
         data_storage.add_title(title='Square Root Calculation')
         data_storage.add_axes_title(key='Square Root Calculation',
@@ -1087,7 +1086,7 @@ class TestPytona(BaseTest):
 
         self.assertEqual(result, 'File doesn\'t exist')
 
-    @requirements(['#0042'])
+    @requirements(['#0039'])
     def test_file_read_10000_bytes(self):
         desired_time = 2 * (10 ** -3)
         # Create the file, and write 1000 bytes to it.
@@ -1108,7 +1107,7 @@ class TestPytona(BaseTest):
         self.assertEqual(result, 10000)
         self.assertLess(elapsed_time, desired_time)
 
-    @requirements(['#0042'])
+    @requirements(['#0039'])
     def test_file_read_10000_bytes_linux_config_test(self):
         desired_time = 2 * (10 ** -3)
         # Create the file, and write 1000 bytes to it. Open in binary mode, so \n doesn't
@@ -1221,7 +1220,7 @@ class TestPytona(BaseTest):
             test_list.append(i)
 
         # Ask questions with original set
-        for _ in range(100):
+        for _ in range(10):
             question_str = 'What is the last Prime numbers before 1000' + QUESTION_MARK
 
             result = self.test_pytona.ask(question=question_str)
@@ -1249,7 +1248,7 @@ class TestPytona(BaseTest):
         self.test_pytona.question_answers = added_questions
 
         # Ask questions with original set + 1 million questions
-        for _ in range(100):
+        for _ in range(10):
             question_str = 'What is the last Prime numbers before 1000' + QUESTION_MARK
 
             result = self.test_pytona.ask(question=question_str)
@@ -1277,7 +1276,7 @@ class TestPytona(BaseTest):
         self.test_pytona.question_answers = original_questions
 
         # Ask questions with original set
-        for _ in range(100):
+        for _ in range(10):
             question_str = 'What is the last Prime numbers before 1000' + QUESTION_MARK
 
             result = self.test_pytona.ask(question=question_str)

@@ -109,7 +109,10 @@ def get_prime_number(digit):
         thrd = threading.Thread(target=calculate_prime, args=(digit, desired_digit))
         thrd.start()
 
-        thrd.join()
+        thrd.join(timeout=3)
+
+        if thrd.isAlive():
+            raise Exception('Thread {} is still alive'.format(thrd.name))
 
         return desired_digit.get()
 
@@ -125,8 +128,12 @@ def get_number_list():
 
     for thread_num in range(100):
         thrd = threading.Thread(target=add_number, args=(thread_num, number_queue))
-
         thrd.start()
+
+        thrd.join(timeout=2)
+
+        if thrd.isAlive():
+            raise Exception('Thread {} is still alive'.format(thrd.name))
 
     while number_queue.qsize() > 0:
         number_list.append(number_queue.get())
@@ -150,9 +157,13 @@ def get_square_root(num):
 
     if num <= 1000000:
         thrd = threading.Thread(target=calculate_square_root, args=(num, desired_digit))
+        thrd.daemon = True
         thrd.start()
 
-        thrd.join()
+        thrd.join(timeout=2)
+
+        if thrd.isAlive():
+            raise Exception('Thread {} is still alive'.format(thrd.name))
 
         return desired_digit.get()
 

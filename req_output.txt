@@ -1,206 +1,282 @@
 Requirement: #0034
 Description: The system shall generate the first 1,000 Fibonacci sequence numbers in under 60 seconds
 Tests:
+test_fibonacci_generate_1000_under_60
+test_fibonacci_generation_time
 
 
 Requirement: #0030
 Description: The system shall be capable of storing at least 1,000,000 questions and answers
 Tests:
+test_storage_load_100_thou
+test_storage_load_1_million
+test_storage_load_1_point_500_thou
 
 
 Requirement: #0033
 Description: The system shall stop generating Fibonacci sequence numbers once it has identified the first 1,000 numbers
 Tests:
+test_fibonacci_answer_100
+test_fibonacci_answer_1000
+test_fibonacci_answer_1001
 
 
 Requirement: #0032
 Description: The system shall be able to retrieve a response in under 5 ms 
 Tests:
+test_retrieve_5_ms_func_answer
+test_retrieve_5_ms_string_answer
+test_retrieve_string_load_test
 
 
 Requirement: #0031
 Description: The system shall store answers in under 5 ms
 Tests:
+test_retrieve_response_isolation_test
+test_store_5_ms_func_answer
+test_store_5_ms_string_answer
+test_store_response_isolation_test
+test_store_string_load_test
 
 
 Requirement: #0006
 Description: The system shall determine an answer to a question as a correct if the keywords provide a 90% match and return the answer
 Tests:
+test_answer_question_90_percent
+test_answer_question_less_90_percent
 
 
 Requirement: #0007
 Description: The system shall exclude any number value from match code and provide the values to generator function (if one exists)
 Tests:
+test_exclude_number
+test_exclude_number_ending
 
 
 Requirement: #0004
 Description: If the system does not detect a question mark at end of the string it shall return "Was that a question?"
 Tests:
+test_no_question_mark
 
 
 Requirement: #0005
 Description: The system shall break a question down into words separated by space
 Tests:
+test_broken_down_question
 
 
 Requirement: #0002
 Description: The system shall answer questions that begin with one of the following valid question keywords: "How", "What", "Where", "Why" and "Who"
 Tests:
+test_answer_question_how
+test_answer_question_what
+test_answer_question_where
+test_answer_question_who
+test_answer_question_why
 
 
 Requirement: #0003
 Description: If the system does not detect a valid question keyword it shall return "Was that a question?"
 Tests:
+test_invalid_keyword
 
 
 Requirement: #0001
 Description: The system shall accept questions in the form of strings and attempt to answer them
 Tests:
+test_question_as_string
+test_question_as_string_int
 
 
 Requirement: #0024
 Description: The system shall respond to the question "Who else is here" with a list of users
 Tests:
+test_answer_to_who_else
 
 
 Requirement: #0025
 Description: When determining users the system shall connect to the server at ip address 192.168.64.3 port 1337 and sending a message "Who?"
 Tests:
+test_answer_to_who_else_connection_call
 
 
 Requirement: #0026
 Description: If a response is received from the server the user list shall be parsed from a "$" seperated list of users
 Tests:
+test_answer_to_who_else
 
 
 Requirement: #0027
 Description: If no response is received from the server the system shall return "IT'S A TRAAAPPPP"
 Tests:
+test_answer_to_who_else_exception
 
 
 Requirement: #0020
 Description: The system shall respond to the question "Why don't you understand me" with "Because you do not speak 1s and 0s"
 Tests:
+test_answer_to_understand_question_valid
 
 
 Requirement: #0021
 Description: The system shall respond to the question "Why don't you shutdown" with "I'm afraid I can't do that <username>"
 Tests:
+test_answer_to_shutdown_question_valid
 
 
 Requirement: #0022
 Description: The system shall respond to the question "Where am I" with the local git branch name or "Unknown" if it can't be determined
 Tests:
+test_answer_to_where_am_question
+test_answer_to_where_am_question_unknown_exception
+test_answer_to_where_am_question_unknown_no_exception
 
 
 Requirement: #0009
 Description: When no valid match is determined the system shall return "I don't know, please provide the answer"
 Tests:
+test_invalid_match
 
 
 Requirement: #0028
 Description: The system shall respond to the question "What is the <int> digit of the Fibonacci sequence?" with the correct number from the fibonnacci sequence if the number has been found
 Tests:
+test_fibonacci_answer_0
+test_fibonacci_answer_1
 
 
 Requirement: #0035
 Description: If too many parameters are sent to the generator, an exception will be thrown
 Tests:
+test_too_may_params
 
 
 Requirement: #0008
 Description: When a valid match is determined the system shall return the answer
 Tests:
+test_valid_match
 
 
 Requirement: #0036
 Description: The system shall generate the prime number up to the given number in under 5 seconds (10000 max). Ex if 100 is entered, 97 will be returned
 Tests:
+test_generate_prime_timing
+test_prime_digit_100
+test_prime_digit_10000
 
 
 Requirement: #0042
 Description: The system shall return "File doesn't exist" if pytona_text_file.txt can't be found
 Tests:
+test_file_read_no_file
 
 
 Requirement: #0037
 Description: The system shall return a list of ordered numbers from 0 to 99 in under 500ms seconds
 Tests:
+test_number_list
+test_number_list_performance
 
 
 Requirement: #0040
 Description: The system shall return "Digit too high", if the prime digit requested is larger than  10000
 Tests:
+test_prime_digit_too_high
 
 
 Requirement: #0029
 Description: If the system has not determined the requested digit of the Fibonacci sequence it will respond with A)"Thinking...", B)"One second" or C)"cool your jets" based on a randomly generated number (A is 60% chance, B is 30% chance, C is 10% chance)
 Tests:
+test_fibonacci_answer_cool_jets
+test_fibonacci_answer_one_second
+test_fibonacci_answer_thinking
 
 
 Requirement: #0038
 Description: The system shall calculate the square root of a number up to 1 million in under 3 ms
 Tests:
+test_square_root_float_result
+test_square_root_max
+test_square_root_max_performance
+test_square_root_timing
 
 
 Requirement: #0041
 Description: The system shall return "Digit too high", if the square root requested is larger than 1000000
 Tests:
+test_square_root_too_high
 
 
 Requirement: #0015
 Description: The system shall accept and store answers to previous questions in the form of a string or a function pointer and store it as the generator function.
 Tests:
+test_updating_answer_func
+test_updating_answer_string
 
 
 Requirement: #0014
 Description: The system shall provide a means of updating an answer to the previously asked question.
 Tests:
+test_updating_answer_string
 
 
 Requirement: #0017
 Description: The system shall respond to the question "What is <float> feet in miles" with the the float value divided by 5280 and append " miles" to the end of  the return.
 Tests:
+test_answer_to_feet_question
+test_answer_to_feet_question_neg
 
 
 Requirement: #0016
 Description: If no previous question has been asked the system shall respond with "Please ask a question first"
 Tests:
+test_updating_answer_no_question
 
 
 Requirement: #0011
 Description: The system shall accept and store answers to previous questions in the form of a string or a function pointer and store it as the generator function.
 Tests:
+test_provide_answer_func
+test_provide_answer_string
 
 
 Requirement: #0010
 Description: The system shall provide a means of providing an answer to the previously asked question.
 Tests:
+test_provide_answer_string
 
 
 Requirement: #0013
 Description: If an attempt is made to provide an answer to an already answered question the system shall respond with "I don\'t know about that. I was taught differently" and not update the question
 Tests:
+test_answer_to_answered_question
 
 
 Requirement: #0012
 Description: If no previous question has been asked the system shall respond with "Please ask a question first"
 Tests:
+test_provide_answer_no_question
 
 
 Requirement: #0039
 Description: The system shall read 10000 bytes from a pytona_text_file.txt in under 2 ms seconds
 Tests:
+test_file_read_10000_bytes
+test_file_read_10000_bytes_linux_config_test
 
 
 Requirement: #0023
 Description: The system shall respond to the question "Where are you" with the URL for the git repo or "Unknown" if it can't be determined
 Tests:
+test_answer_to_where_you_question
+test_answer_to_where_you_question_exception
+test_answer_to_where_you_question_no_exception
 
 
 Requirement: #0019
 Description: The system shall respond to the question "Who invented Python" with "Guido Rossum(BDFL)"
 Tests:
+test_answer_to_python_question_valid
 
 
-Requirement Coverage: 0.0
+Requirement Coverage: 100.0
