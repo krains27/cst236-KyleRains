@@ -19,7 +19,8 @@ An automated test will not likely find other issues in a system.
 What new bugs did you encounter with the new code?
 ==================================================
 
-I noticed that the Answer: label is actually "Answer: " instead of "Answer:"
+I noticed that the Answer: label is actually "Answer: " instead of "Answer:". Also, a question mark
+was not needed to ask a question. 
 
 How many UI tests did you generate? How did you deteremine you had written enough?
 ==================================================================================
