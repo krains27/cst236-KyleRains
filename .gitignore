@@ -2,4 +2,6 @@
 *.pyc
 /htmlcov
 /doc/build
+/doc/_build
 .coverage
+.idea
