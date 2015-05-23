@@ -5,33 +5,36 @@ import logging
 import inspect
 
 """
-List of methods that are included in every class.
-"""
-EXCLUDED_METHODS = ['__class__', '__delattr__', '__dict__', '__doc__', '__format__',
-                    '__getattribute__', '__hash__', '__init__', '__module__', '__new__',
-                    '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__',
-                    '__str__', '__subclasshook__', '__weakref__']
-
-"""
 class_params should hold any expected class name as a key along with a list of valid
 parameters as the value. Classes that do not require parameters should contain and empty
 list
 """
-class_params = {'IMClient': []}
+class_params = {'FibSeqFinder': [],
+                'Interface': [],
+                'QA': ['test question', 'test answer']}
 
 """
 func_params should hold any expected function name along with a list of valid parameters
 as the value. Functions that do not require parameters should contain and empty
 list
 """
-func_params = {'addr_format': ['test']}
+func_params = {'feet_to_miles': [42],
+               'get_fibonacci_seq': [1],
+               'get_git_branch': [],
+               'get_git_url': [],
+               'get_other_users': [],
+               'hal_20': []}
 
 """
 method_params should hold any expected method name along with a list of
 valid parameters as the value. Methods that do not require parameters
 should contain and empty list
 """
-method_params = {'connect': []}
+method_params = {'ask': ['Who invented Python'],
+                 'teach': [''],
+                 'correct': [''],
+                 '_Interface__add_answer': [''],
+                 'stop': []}
 
 
 class SanityChecker(object):
@@ -51,6 +54,7 @@ class SanityChecker(object):
         sys.path.append(os.path.abspath(self.dir_to_check))
         self.module_list = []
         self.class_list = []
+        self.missed_methods = []
 
     def import_modules(self):
         """
@@ -84,7 +88,8 @@ class SanityChecker(object):
                         self.class_list.append(obj(*class_params[name]))
                         self.logger.info('Successfully instantiated class ' + name)
                     except Exception as err:
-                        self.logger.error('\nError while instantiating ' + name)
+                        self.logger.error('\nError while instantiating ' + name + ' from ' + mod + ' module')
+                        self.logger.error('Exception: {}'.format(type(err)))
                         self.logger.error(err.message + '\n')
 
     def call_methods(self):
@@ -97,12 +102,12 @@ class SanityChecker(object):
         """
         for cls in self.class_list:
             for name, obj in inspect.getmembers(cls):
-                if callable(obj) and name not in EXCLUDED_METHODS:
+                if callable(obj) and name in method_params:
                     try:
                         obj(*method_params[name])
                         self.logger.info('Successfully called method ' + name)
                     except Exception as err:
-                        self.logger.error('\nError while calling ' + name + ' from class ' + name)
+                        self.logger.error('\nError while calling ' + name + ' from class ' + cls.__class__.__name__)
                         self.logger.error('Exception: {}'.format(type(err)))
                         self.logger.error('Exception message: ' + err.message + '\n')
 
@@ -129,7 +134,7 @@ class SanityChecker(object):
 A simple example on how to use the class
 """
 if __name__ == '__main__':
-    path = 'C:\CST236\cst236-KyleRains\source\FinalProject'
+    path = '.\Pytona'
 
     x = SanityChecker(directory=path)
     x.import_modules()
