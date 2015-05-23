@@ -11,7 +11,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   code/source1.rst
+   code/im_server.rst
+   code/im_client.rst
 
 
 

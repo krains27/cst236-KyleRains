@@ -1,3 +1,8 @@
+"""
+:mod:`source.FinalProject.im_server` -- Module that describes the im server
+===========================================================================
+This file includes the code that will describe the IM server functionality
+"""
 import logging
 import socket
 from Queue import Queue
@@ -6,6 +11,12 @@ from im_common import SERVER_PORT, NUM_USERS
 
 
 class IMServer(object):
+    """
+    The server class that will route messages to and from connected friends
+
+    :param addr: The address of the server
+    :type addr: str
+    """
 
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
@@ -37,5 +48,12 @@ class IMServer(object):
             conn, addr = self.__server_socket.accept()
 
     def stop(self):
+        """
+        Closes the server socket
+
+        :return: None
+        :rtype: None
+        """
         if self.__server_socket:
             self.__server_socket.close()
+            self.running = False

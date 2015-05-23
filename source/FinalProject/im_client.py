@@ -1,3 +1,9 @@
+"""
+:mod:`source.FinalProject.im_client` -- Module that describes the im client
+===========================================================================
+This file includes the code that will describe the IM client functionality
+"""
+
 import logging
 import socket
 
@@ -5,6 +11,9 @@ from im_common import HDR_DELIMETER, SERVER_PORT
 
 
 class IMClient(object):
+    """
+    The client class that will allow a user to send messages to a connected friend
+    """
 
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
@@ -27,7 +36,6 @@ class IMClient(object):
         :return: None
         :rtype: None
         """
-        print self.__socket
         if self.__socket:
             self.__socket.close()
             self.connected = False
@@ -57,8 +65,8 @@ class IMClient(object):
         """
         Attempts to connect to the IM server.
 
-        :param wait_for_friend: Determines whether you want to wait for friend if
-        first connected
+        :param wait_for_friend: Determines whether you want to wait for friend if first
+            connected
         :type wait_for_friend: bool
 
         :return: None
