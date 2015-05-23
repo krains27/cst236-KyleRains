@@ -5,6 +5,19 @@ import logging
 import inspect
 
 """
+List of methods to exclude from calling
+"""
+methods_to_exclude = ['__class__', '__delattr__', '__dict__', '__doc__', '__format__',
+                    '__getattribute__', '__hash__', '__init__', '__module__', '__new__',
+                    '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__',
+                    '__str__', '__subclasshook__', '__weakref__', '_Thread__bootstrap',
+                    '_Thread__bootstrap_inner', '_Thread__delete', '_Thread__exc_clear',
+                    '_Thread__exc_info', '_Thread__stop', '_note', '_reset_internal_locks',
+                    '_set_daemon', '_set_ident', 'getName', 'isAlive', 'isDaemon',
+                    'is_alive', 'join', 'run', 'setDaemon', 'setName', 'start']
+
+
+"""
 class_params should hold any expected class name as a key along with a list of valid
 parameters as the value. Classes that do not require parameters should contain and empty
 list
@@ -54,7 +67,6 @@ class SanityChecker(object):
         sys.path.append(os.path.abspath(self.dir_to_check))
         self.module_list = []
         self.class_list = []
-        self.missed_methods = []
 
     def import_modules(self):
         """
@@ -102,7 +114,7 @@ class SanityChecker(object):
         """
         for cls in self.class_list:
             for name, obj in inspect.getmembers(cls):
-                if callable(obj) and name in method_params:
+                if callable(obj) and name not in methods_to_exclude:
                     try:
                         obj(*method_params[name])
                         self.logger.info('Successfully called method ' + name)
